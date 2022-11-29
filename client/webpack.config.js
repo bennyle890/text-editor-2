@@ -18,16 +18,17 @@ module.exports = () => {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
     },
-    plugins: [
-      new InjectManifest({
-        swSrc: './src-sw.js',
-        swDest: 'src-sw.js',
-      }),
+    plugins: [ 
       // new WorkboxPlugin.GenerateSW(),
       new HtmlWebpackPlugin({
         template: './index.html',
         title: 'J.A.T.E.'
       }),
+      new InjectManifest({
+        swSrc: './src-sw.js',
+        swDest: 'src-sw.js',
+      }),
+    
       new WebpackPwaManifest({
         fingerprints: false,
         inject: true,
@@ -44,12 +45,6 @@ module.exports = () => {
             sizes: [96, 128, 192, 256, 384, 512],
             destination: path.join('assets', 'icons'),
           },
-          {
-            src: path.resolve('src/images/logo.png'),
-            size: '1024x1024',
-            destination: path.join('assets', 'icons'),
-            purpose: 'maskable'
-          }
         ],
       }),
     ],

@@ -26,34 +26,12 @@ warmStrategyCache({
 
 registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
-// TODO: Implement asset caching
-
-// const cacheName = 'static-resources';
-
-// Checks if resource is CSS or JS
-// const matchCallback = ({ request }) => {
-//   return (
-//     request.destination === 'style' || request.destination === 'script'
-//   )
-// }
-
-// CSS / JS are stashed here
-// registerRoute(matchCallback,
-//   new StaleWhileRevalidate({
-//     cacheName,
-//     plugins: [
-//   new CacheableResponsePlugin({
-//       statuses: [0, 200],
-//       }),
-//     ],
-//   })
-// );
 
 // Images are cached here
 registerRoute(
   ({ request }) => ['style', 'script', 'worker'].includes(request.destination), // === 'image',
   new StaleWhileRevalidate({
-    cacheName,
+    cacheName: 'asset-cache',
     plugins: [
   new CacheableResponsePlugin({
       statuses: [0, 200],
@@ -61,18 +39,3 @@ registerRoute(
     ],
   })
 );
-
-  //   new CacheFirst({
-//     cacheName: 'my-image-cache',
-//     plugins: [
-//       new CacheableResponsePlugin({
-//         statuses: [0, 200],
-//       }),
-//       new ExpirationPlugin({
-//         maxEntries: 60,
-//         maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
-//       }),
-//     ],
-//   })
-// );
-
